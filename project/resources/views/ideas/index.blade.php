@@ -53,8 +53,8 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-9">
-            <div>
+        <div class="col-md-9 mt-3">
+            <div class="">
                 <h4 class="title d-inline">LASTEST IDEA</h4>
                 @include('ideas.create')
                 <button class="btn btn-success d-inline float-md-end">My Idea</button>

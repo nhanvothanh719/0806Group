@@ -17,9 +17,8 @@
 	}
 
 	.comments-title {
-		font-size: 16px;
+		font-size: 20px;
 		margin-bottom: 15px;
-		font-family: 'Conv_helveticaneuecyr-bold';
 	}
 
 	.be-img-comment {
@@ -115,33 +114,35 @@
 @section('content')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ti-icons@0.1.2/css/themify-icons.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide|Trirong">
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-7 col-lg-4 mb-5 mb-lg-0 wow fadeIn">
-            <div class="card border-0 shadow">
-                <img src="https://marketingai.vn/wp-content/uploads/2018/07/big-idea.jpg" alt="...">
-                <div class="card-body p-1-9 p-xl-5">
-                    <div class="mb-4">
-                        <h3 class="h4 mb-0">Let's debase</h3>
-                        <span class="text-primary">CEO &amp; Founder</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-8">
-            <div class="ps-lg-1-6 ps-xl-5">
-                <div class="mb-5 wow fadeIn">
-                    <div class="text-start mb-1-6 wow fadeIn">
-                        <h2 class="h1 mb-0 text-primary">#New Idea:</h2>
-                    </div>
+	<div class="row justify-content-center">
+		<div class="col-md-7 col-lg-4 mb-5 mb-lg-0 wow fadeIn">
+			<div class="card border-0 shadow">
+				<img src="https://marketingai.vn/wp-content/uploads/2018/07/big-idea.jpg" alt="...">
+				<div class="card-body p-1-9 p-xl-5">
+					<div class="mb-4 d-flex justify-content-center">
+						<h3 class="h4">How do you feel about this idea?</h3>
+						<button type="button" class="btn btn-link"><i class="fa fa-thumbs-up fa-3x"></i></button>
+						<button type="button" class="btn btn-link"><i class="fa fa-thumbs-down fa-3x"></i></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container col-lg-8 border" style="background: #f6f6f7;">
+			<div class="ps-lg-1-6 ps-xl-5">
+				<div class="mb-5 wow fadeIn">
 					<div class="text-start mb-1-6 wow fadeIn">
-                        <h2 class="h1 mb-0 text-primary">{{$idea -> title}}</h2>
-                    </div>
-                    <p>{{$idea -> content}}</p>
-                </div>
-            </div>
-        </div>
-    </div>
+						<h2 class="h1 mb-0" style="font-family: Trirong, serif;"><img src="https://iconarchive.com/download/i107291/vexels/office/bulb.ico" width="60" height="60"></img>New Idea:</h2>
+						<h1 class="mb-0 text-primary" style="font-family: Audiowide, sans-serif;">"{{$idea -> title}}"</h1>
+					</div>
+					<span class="container rounded">
+						<p>{{$idea -> content}}</p>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="container">
@@ -151,34 +152,31 @@
 		@if($comment->user_id === $user_id)
 		<div class="be-comment">
 			<div class="be-img-comment">
-				<a href="blog-detail-2.html">
 					<img src="{{asset('/storage/images/'.Auth::user()->avatar)}}" alt="" class="be-ava-comment">
-				</a>
 			</div>
 			<div class="be-comment-content">
-				<span class="be-comment-name">
-					<a href="blog-detail-2.html">(*) Anonymous mode</a>
+				<span class="badge bg-primary">
+					(*) You
 				</span>
 				<span class="be-comment-time">
 					<i class="fa fa-clock-o"></i>
 					May 27, 2015 at 3:14am
 				</span>
-
-				<p class="be-comment-text">
+				<div class="be-comment-text">
 					{{$comment -> content}}
-				</p>
+					<button type="button" class="btn btn-link text-right"><i class="fa fa-trash" style="font-size:24px"></i></button>
+					<button type="button" class="btn btn-link text-right"><i class="fa fa-edit" style="font-size:24px"></i></button>
+				</div>
 			</div>
 		</div>
 		@else
 		<div class="be-comment">
 			<div class="be-img-comment">
-				<a href="blog-detail-2.html">
 					<img src="https://iptc.org/wp-content/uploads/2018/05/avatar-anonymous-300x300.png" alt="" class="be-ava-comment">
-				</a>
 			</div>
 			<div class="be-comment-content">
-				<span class="be-comment-name">
-					<a href="blog-detail-2.html">(*) Anonymous mode</a>
+				<span class="badge bg-dark">
+					(*) Anonymous user
 				</span>
 				<span class="be-comment-time">
 					<i class="fa fa-clock-o"></i>
