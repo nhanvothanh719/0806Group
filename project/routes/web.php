@@ -38,7 +38,6 @@ Route::get('/home', function () {
 
 Route::get('/privacy', [PrivacyController::class,'index'])->name('privacy');
 Route::get('/term', [TermOfUseController::class,'index'])->name('term');
-    
 Route::post('/contact', [ContactController::class, 'index'])->name('contact');
 
 Route::group(['middleware' => 'auth'], function () {
@@ -91,27 +90,37 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         //Department
-        Route::get('/department/', [DepartmentController::class, 'indexDepartment'])->name('admin.department.index');
-        Route::get('/department/dt-row-data', [DepartmentController::class, 'getDtRowData']);
-        Route::post('/department/createDpm', [DepartmentController::class, 'create'])->name('admin.department.createDpm');
-        Route::delete('/department/delete/{id}', [DepartmentController::class, 'delete'])->name('admin.department.delete');
-        Route::get('department/update/{id}', [DepartmentController::class, 'edit'])->name('admin.department.update');
-        Route::post('department/update/{id}', [DepartmentController::class, 'update'])->name('admin.department.store');
-
+        Route::group(['prefix' => 'department'], function () {
+            Route::get('/', [DepartmentController::class, 'indexDepartment'])->name('admin.department.index');
+            Route::get('/dt-row-data', [DepartmentController::class, 'getDtRowData']);
+            Route::post('/createDpm', [DepartmentController::class, 'create'])->name('admin.department.createDpm');
+            Route::delete('/delete/{id}', [DepartmentController::class, 'delete'])->name('admin.department.delete');
+            Route::get('/update/{id}', [DepartmentController::class, 'edit'])->name('admin.department.update');
+            Route::post('/update/{id}', [DepartmentController::class, 'update'])->name('admin.department.store');
+        });
         //Semester
-        Route::get('/semester/', [SemesterController::class, 'indexSemester'])->name('admin.semester.indexSemester');
-        Route::get('/semester/dt-row-data', [SemesterController::class, 'getDtRowData']);
-        Route::post('/semester/createSmt', [SemesterController::class, 'create'])->name('admin.semester.createSmt');
-        Route::delete('/semester/delete/{id}', [SemesterController::class, 'delete'])->name('admin.semester.delete');
-        Route::get('semester/update/{id}', [SemesterController::class, 'edit'])->name('admin.semester.update');
-        Route::post('semester/update/{id}', [SemesterController::class, 'update'])->name('admin.semester.store');
+        Route::group(['prefix' => 'semester'], function () {
+            Route::get('/', [SemesterController::class, 'indexSemester'])->name('admin.semester.index');
+            Route::get('/dt-row-data', [SemesterController::class, 'getDtRowData']);
+            Route::post('/createSmt', [SemesterController::class, 'create'])->name('admin.semester.createSmt');
+            Route::delete('/delete/{id}', [SemesterController::class, 'delete'])->name('admin.semester.delete');
+            Route::get('/update/{id}', [SemesterController::class, 'edit'])->name('admin.semester.update');
+            Route::post('/update/{id}', [SemesterController::class, 'update'])->name('admin.semester.store');
+        });
 
         //Mission
-        Route::get('/missions/', [MissionController::class, 'index'])->name('admin.missions.indexMission');
+        Route::get('/missions/', [MissionController::class, 'index'])->name('admin.missions.index');
         Route::get('/missions/dt-row-data', [MissionController::class, 'getDtRowData']);
         Route::post('/mission/create', [MissionController::class, 'create'])->name('admin.mission.create');
+        Route::delete('/missions/delete/{id}',[MissionController::class,'delete'])->name('admin.mission.delete');
+
+        // List mission by category|department|semester
         Route::get('/missions/category/{id}', [MissionController::class, 'listMissionByCategory'])->name('admin.missions.category.index');
         Route::get('/missions/category/{id}/dt-row-data', [MissionController::class, 'getDtRowDataByCategory']);
+        Route::get('/missions/department/{id}', [MissionController::class, 'listMissionByDepartment'])->name('admin.missions.department.index');
+        Route::get('/missions/department/{id}/dt-row-data', [MissionController::class, 'getDtRowDataByDepartment']);
+        Route::get('/missions/semester/{id}', [MissionController::class, 'listMissionBySemester'])->name('admin.missions.semester.index');
+        Route::get('/missions/semester/{id}/dt-row-data', [MissionController::class, 'getDtRowDataBySemester']);
     });
 
     

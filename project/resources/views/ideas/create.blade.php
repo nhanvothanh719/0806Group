@@ -24,36 +24,36 @@
                             <label for="idea-title" class="col-form-label">Title:</label>
                             <input type="text" class="form-control @error('title') is-invalid @enderror" id="idea-title"
                                 name="title">
-                            @if ($errors->has('idea-title'))
+                            @if ($errors->has('title'))
                                 <span>
                                     @error('title')
-                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        <strong class="text-danger">{{ $message }}</strong>
                                     @enderror
                                 </span>
                             @endif
                         </div>
                         <div class="form-group @error('content') is-invalid @enderror">
                             <label for="content" class="col-form-label" rows="5">Content:</label>
-                            <textarea class="form-control" id="content" name="content"></textarea>
+                            <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content"></textarea>
                             @if ($errors->has('content'))
                                 <span>
                                     @error('content')
-                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        <strong class="text-danger">{{ $message }}</strong>
                                     @enderror
                                 </span>
                             @endif
                         </div>
                         <div class="form-group @error('mission_id') is-invalid @enderror">
-                            <label for="mission_id">Category:</label> <br />
+                            <label for="mission_id">Mission:</label> <br />
                             <select name="mission_id" class="form-control" id="mission_id">
                                 @foreach ($missions as $m)
-                                    <option value="{{ $m->id }}">{{ $m->name }}</option>
+                                    <option value="{{ $m->id }}">{{ $m->name }} - {{ $m->end_at->diffForHumans() }}</option>
                                 @endforeach
                             </select>
                             @if ($errors->has('mission_id'))
                                 <span>
                                     @error('mission_id')
-                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        <strong class="text-danger">{{ $message }}</strong>
                                     @enderror
                                 </span>
                             @endif
@@ -64,20 +64,21 @@
                             @if ($errors->has('files'))
                                 <span>
                                     @error('files')
-                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        <strong class="text-danger">{{ $message }}</strong>
                                     @enderror
                                 </span>
                             @endif
                         </div><br>
                         <div class="form-check @error('form-check-input') is-invalid @enderror">
                             <input type="checkbox" name="is-agree" class="form-check-input" id="is-agree">
-                            <strong class="form-check-label" for="is-agree">I agree with all terms and
-                                conditions</strong>
+                            <strong class="form-check-label" for="is-agree">I agree with all 
+                                <a class="link-dark text-decoration-none me-3 text-danger" href="{{ route('term') }}" target="_blank">terms and
+                                    conditions</a></strong>
                         </div>
                         @if ($errors->has('is-agree'))
                             <span>
                                 @error('is-agree')
-                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    <strong class="text-danger">{{ $message }}</strong>
                                 @enderror
                             </span>
                         @endif
@@ -92,11 +93,11 @@
     </div>
 </div>
 
-<!-- <script>
+<script>
     @if ($errors->has('files') || $errors->has('is-agree') || $errors->has('title') || $errors->has('content'))
         var delayInMilliseconds = 1000;
         setTimeout(function() {
         $("#exampleModal").modal('show');
         }, delayInMilliseconds);
     @endif
-</script> -->
+</script>

@@ -41,10 +41,10 @@ class MissionController extends Controller
             ->editColumn('action', function ($data) {
                 return '
                 <a class="btn btn-warning btn-sm rounded-pill" href="' . route("admin.account.update", $data->id) . '"><i class="fa-solid fa-pen-to-square"></i></a>
-                <form method="POST" action="' . route('admin.account.delete', $data->id) . '" accept-charset="UTF-8" style="display:inline-block">
+                <form method="POST" action="' . route('admin.mission.delete', $data->id) . '" accept-charset="UTF-8" style="display:inline-block">
                 ' . method_field('DELETE') .
                     '' . csrf_field() .
-                    '<button type="submit" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm(\'Do you want to delete this account ?\')"><i class="fa-solid fa-trash"></i></button>
+                    '<button type="submit" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm(\'Do you want to delete this mission ?\')"><i class="fa-solid fa-trash"></i></button>
                 </form>
                 ';
             })
@@ -78,10 +78,17 @@ class MissionController extends Controller
         return redirect()->back()->with('flash_message', 'Missions created!');
     }
 
+    public function delete($id)
+    {
+        $data = Mission::find($id);
+        $data->delete();
+        return redirect()->back()->with('flash_message', 'User deleted!');
+    }
+
     public function listMissionByCategory($id)
     {
         $cate = Category::find($id);
-        if (!$cate) abort(404); //check categỏy exits
+        if (!$cate) abort(404); //check category exits
         return view(
             'admin.missions.indexbyCategory',
             [
@@ -89,10 +96,96 @@ class MissionController extends Controller
             ]
         );
     }
+    public function listMissionByDepartment($id)
+    {
+        $dpm = Department::find($id);
+        if (!$dpm) abort(404); //check department exits
+        return view(
+            'admin.missions.indexbyDepartment',
+            [
+                'department' => $dpm
+            ]
+        );
+    }
+
+    public function listMissionBySemester($id)
+    {
+        $smt = Semester::find($id);
+        if (!$smt) abort(404); //check semester exits
+        return view(
+            'admin.missions.indexbySemester',
+            [
+                'semester' => $smt
+            ]
+        );
+    }
+
 
     public function getDtRowDataByCategory($id, Request $request)
     {
         $mission = Mission::where('category_id', $id)->get();
+        return Datatables::of($mission)
+            ->editColumn('category', function ($data) {
+                return $data->category->name;
+            })
+            ->editColumn('department', function ($data) {
+                return $data->department->name;
+            })
+            ->editColumn('semester', function ($data) {
+                return $data->semester->name;
+            })
+            ->editColumn('action', function ($data) {
+                return '
+                <a class="btn btn-warning btn-sm rounded-pill" href="' . route("admin.account.update", $data->id) . '"><i class="fa-solid fa-pen-to-square"></i></a>
+                <form method="POST" action="' . route('admin.account.delete', $data->id) . '" accept-charset="UTF-8" style="display:inline-block">
+                ' . method_field('DELETE') .
+                    '' . csrf_field() .
+                    '<button type="submit" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm(\'Do you want to delete this account ?\')"><i class="fa-solid fa-trash"></i></button>
+                </form>
+                ';
+            })
+            ->rawColumns(['action'])
+            ->setRowAttr([
+                'data-row' => function ($data) {
+                    return $data->id;
+                }
+            ])
+            ->make(true);
+    }
+    public function getDtRowDataByDepartment($id, Request $request)
+    {
+        $mission = Mission::where('department_id', $id)->get();
+        return Datatables::of($mission)
+            ->editColumn('category', function ($data) {
+                return $data->category->name;
+            })
+            ->editColumn('department', function ($data) {
+                return $data->department->name;
+            })
+            ->editColumn('semester', function ($data) {
+                return $data->semester->name;
+            })
+            ->editColumn('action', function ($data) {
+                return '
+                <a class="btn btn-warning btn-sm rounded-pill" href="' . route("admin.account.update", $data->id) . '"><i class="fa-solid fa-pen-to-square"></i></a>
+                <form method="POST" action="' . route('admin.account.delete', $data->id) . '" accept-charset="UTF-8" style="display:inline-block">
+                ' . method_field('DELETE') .
+                    '' . csrf_field() .
+                    '<button type="submit" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm(\'Do you want to delete this account ?\')"><i class="fa-solid fa-trash"></i></button>
+                </form>
+                ';
+            })
+            ->rawColumns(['action'])
+            ->setRowAttr([
+                'data-row' => function ($data) {
+                    return $data->id;
+                }
+            ])
+            ->make(true);
+    }
+    public function getDtRowDataBySemester($id, Request $request)
+    {
+        $mission = Mission::where('semester_id', $id)->get();
         return Datatables::of($mission)
             ->editColumn('category', function ($data) {
                 return $data->category->name;

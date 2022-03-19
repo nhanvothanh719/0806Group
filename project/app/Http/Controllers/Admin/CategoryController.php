@@ -31,7 +31,8 @@ class CategoryController extends Controller
             ->editColumn('action', function ($data) {
                 return '
                 <a class="btn btn-warning btn-sm rounded-pill" href="' . route("admin.category.update", $data->id) . '"><i class="fa-solid fa-pen-to-square"></i></a>
-                <form method="POST" action="' . route('admin.category.delete', $data->id) . '" accept-charset="UTF-8" style="display:inline-block">
+                
+                <form method="POST" action="' . route("admin.category.delete", $data->id) . '" accept-charset="UTF-8" style="display:inline-block">
                 ' . method_field('DELETE') .
                     '' . csrf_field() .
                     '<button type="submit" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm(\'Do you want to delete this category ?\')"><i class="fa-solid fa-trash"></i></button>
@@ -49,7 +50,7 @@ class CategoryController extends Controller
 
     public function delete($id)
     {
-        $data = Category::findOrFail($id);
+        $data = Category::find($id);
         $data->delete();
         return redirect()->back()->with('flash_message', 'User deleted!');
     }
@@ -79,6 +80,6 @@ class CategoryController extends Controller
         $data = $request->all();
         $dataCategory->update($data);
         $dataCategory->save();
-        return redirect('admin/category/index');
+        return redirect('admin/category');
     }
 }

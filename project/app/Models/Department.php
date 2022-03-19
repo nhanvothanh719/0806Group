@@ -12,4 +12,9 @@ class Department extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function missions()
+    {
+        return $this->hasMany(Mission::class);
+    }
 }

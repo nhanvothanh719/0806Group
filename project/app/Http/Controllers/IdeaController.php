@@ -28,7 +28,7 @@ class IdeaController extends Controller
      */
     public function index(Request $request)
     {
-        $missions = Mission::all();
+        $missions = Mission::where('end_at', '>=', now())->get();
         $ideas = Idea::withCount('comments')->paginate(5);
         return view(
             'ideas.index',
@@ -38,6 +38,13 @@ class IdeaController extends Controller
 
     public function store(IdeaStoreRequest $request)
     {
+        $mission = Mission::find($request->mission_id);
+        if(!$mission){
+            return redirect()->back()->with(['class' => 'danger', 'message' => 'Mission not found']);
+        }
+        if(now() > $mission->end_at){
+            return redirect()->back()->with(['class' => 'danger', 'message' => 'Mission close']);
+        }
         $input = $request->except('_token');
         $input['user_id'] = auth()->user()->id;
         $idea = Idea::create($input);
@@ -80,9 +87,10 @@ class IdeaController extends Controller
 
     public function details(Request $request, $id)
     {
-        $user_id = Auth::user()->id;
+        $user_id = Auth::user() -> id;
         $idea = Idea::findOrFail($id);
-        $comments = Comment::where('idea_id', '=', $idea->id)->get();
-        return view('ideas.details', compact('idea', 'comments', 'user_id'));
+        $comments = Comment::where('idea_id', '=', $idea->id)->orderBy('created_at','desc')->paginate(5);
+        $attachment = Attachment::where('idea_id', '=', $idea->id)->get();
+        return view('ideas.details', compact('idea', 'comments', 'attachment', 'user_id'));
     }
 }

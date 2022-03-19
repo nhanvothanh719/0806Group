@@ -12,4 +12,9 @@ class Semester extends Model
         'name',
         'end_day',
     ];
+    
+    public function missions()
+    {
+        return $this->hasMany(Mission::class);
+    }
 }

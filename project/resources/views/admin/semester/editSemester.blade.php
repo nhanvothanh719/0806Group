@@ -85,7 +85,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.semester.indexSemester') }}">Department</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.semester.index') }}">Semester</a></li>
                         <li class="breadcrumb-item active">Update Semester</li>
                     </ol>
                 </div><!-- /.col -->

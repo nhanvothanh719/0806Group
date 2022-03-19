@@ -121,10 +121,9 @@
 			<div class="card border-0 shadow">
 				<img src="https://marketingai.vn/wp-content/uploads/2018/07/big-idea.jpg" alt="...">
 				<div class="card-body p-1-9 p-xl-5">
-					<div class="mb-4 d-flex justify-content-center">
+					<div class="mb-4">
 						<h3 class="h4">How do you feel about this idea?</h3>
-						<button type="button" class="btn btn-link"><i class="fa fa-thumbs-up fa-3x"></i></button>
-						<button type="button" class="btn btn-link"><i class="fa fa-thumbs-down fa-3x"></i></button>
+						@livewire('react-component', ['model' => $idea])
 					</div>
 				</div>
 			</div>
@@ -133,7 +132,10 @@
 			<div class="ps-lg-1-6 ps-xl-5">
 				<div class="mb-5 wow fadeIn">
 					<div class="text-start mb-1-6 wow fadeIn">
-						<h2 class="h1 mb-0" style="font-family: Trirong, serif;"><img src="https://iconarchive.com/download/i107291/vexels/office/bulb.ico" width="60" height="60"></img>New Idea:</h2>
+						<h2 class="h1 mb-0" style="font-family: Trirong, serif; line-height:3.5em;">
+							<img src="https://iconarchive.com/download/i107291/vexels/office/bulb.ico" width="60" height="60"></img>
+							New Idea:
+						</h2>
 						<h1 class="mb-0 text-primary" style="font-family: Audiowide, sans-serif;">"{{$idea -> title}}"</h1>
 					</div>
 					<span class="container rounded">
@@ -147,60 +149,42 @@
 
 <div class="container">
 	<div class="be-comment-block">
-		<h1 class="comments-title">All comments</h1>
-		@foreach($comments as $comment)
-		@if($comment->user_id === $user_id)
-		<div class="be-comment">
+		<h1 class="comments-title">Comments</h1>
+		@foreach ($comments as $comment)
+		<div class="comment-block">
 			<div class="be-img-comment">
-					<img src="{{asset('/storage/images/'.Auth::user()->avatar)}}" alt="" class="be-ava-comment">
+				<a href="">
+					<img src="{{ (auth()->user()->avatar == null) ? asset('/images/avatar.png') : asset('/storage/images/' . Auth::user()->avatar) }}" alt="" class="be-ava-comment">
+				</a>
 			</div>
 			<div class="be-comment-content">
-				<span class="badge bg-primary">
-					(*) You
+
+				<span class="be-comment-name">
+					<strong>{{ auth()->user()->hasRole('staff')? 'Anonymous': $comment->user->name }}</strong>
 				</span>
 				<span class="be-comment-time">
 					<i class="fa fa-clock-o"></i>
-					May 27, 2015 at 3:14am
-				</span>
-				<div class="be-comment-text">
-					{{$comment -> content}}
-					<button type="button" class="btn btn-link text-right"><i class="fa fa-trash" style="font-size:24px"></i></button>
-					<button type="button" class="btn btn-link text-right"><i class="fa fa-edit" style="font-size:24px"></i></button>
-				</div>
-			</div>
-		</div>
-		@else
-		<div class="be-comment">
-			<div class="be-img-comment">
-					<img src="https://iptc.org/wp-content/uploads/2018/05/avatar-anonymous-300x300.png" alt="" class="be-ava-comment">
-			</div>
-			<div class="be-comment-content">
-				<span class="badge bg-dark">
-					(*) Anonymous user
-				</span>
-				<span class="be-comment-time">
-					<i class="fa fa-clock-o"></i>
-					May 27, 2015 at 3:14am
+					{{ $comment->created_at->diffForHumans() }}
 				</span>
 
 				<p class="be-comment-text">
-					{{$comment -> content}}
+					{{ $comment->content }}
 				</p>
 			</div>
 		</div>
-		@endif
 		@endforeach
-		<form class="form-block" action="{{url('/ideas/add-comment/'.$idea->id)}}" method="POST">
-			@csrf
-			<div class="row">
-				<div class="col-xs-12">
-					<div class="form-group">
-						<textarea class="form-input" required="" name="content" placeholder="Write a comment..."></textarea>
-					</div>
+		{{ $comments->links() }}
+		<div class="be-comment mb-3">
+			<form action="{{ url('/ideas/add-comment/' . $idea->id) }}" method="POST">
+				@csrf
+				<div class="input-group">
+					<input type="text" class="form-control rounded-corner" name="content" placeholder="Write a comment...">
+					<span class="input-group-btn p-l-10">
+						<button class="btn btn-primary f-s-12 rounded-corner pull-right" type="submit">Submit</button>
+					</span>
 				</div>
-				<button class="btn btn-primary f-s-12 rounded-corner pull-right" type="submit">Submit</button>
-			</div>
-		</form>
+			</form>
+		</div>
 	</div>
 </div>
 @endsection

@@ -12,9 +12,8 @@ class SemesterController extends Controller
     public function indexSemester()
     {
     
-        $itemSemester = Semester::all();
-        return view('admin.semester.indexSemester',compact('itemSemester'));
-        
+        $semester = Semester::all();
+        return view('admin.semester.indexSemester');
     }
 
     public function getDtRowData(Request $request)
@@ -23,10 +22,13 @@ class SemesterController extends Controller
 
         return Datatables::of($semester)
             ->editColumn('name', function ($data) {
-                return $data->name;
+                return ' <a href="' . route('admin.missions.semester.index', $data->id) . '">' . $data->name . '</a>';
             })
             ->editColumn('end_day', function ($data) {
                 return $data->end_day;
+            })
+            ->editColumn('mission', function ($data) {
+                return $data->missions->count();
             })
             ->editColumn('action', function ($data) {
                 return '
@@ -39,7 +41,7 @@ class SemesterController extends Controller
                 ';
                 
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','name'])
             ->setRowAttr([
                 'data-row' => function ($data) {
                     return $data->id;
@@ -56,7 +58,7 @@ class SemesterController extends Controller
     }
 
     public function create(Request $request){
-        //todo: Add create category request
+        //todo: Add create semester request
         $name = $request->name;
         $end_day = $request->end_day;
         Semester::create([
@@ -76,6 +78,6 @@ class SemesterController extends Controller
         $data = $request -> all();
         $dataSmt->update($data);
         $dataSmt->save();
-        return redirect('admin/semester/indexSemester');
+        return redirect('admin/semester');
     }
 }

@@ -140,7 +140,7 @@
 
                         <!-- Semester -->
                         <li class="nav-item">
-                            <a href="{{ route('admin.semester.indexSemester') }}" class="nav-link">
+                            <a href="{{ route('admin.semester.index') }}" class="nav-link">
 
                                 <i class="nav-icon fas fa-anchor"></i>
                                 <p>
@@ -151,7 +151,7 @@
 
                         <!-- Mission -->
                         <li class="nav-item">
-                        <a href="{{ route('admin.missions.indexMission') }}" class="nav-link">
+                        <a href="{{ route('admin.missions.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-tasks-alt"></i>
                                 <p>
                                     Missions
