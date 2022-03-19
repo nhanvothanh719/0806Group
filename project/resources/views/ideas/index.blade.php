@@ -81,7 +81,7 @@
                                     @livewire('react-component', [
                                         'model' => $idea
                                     ])
-
+                                    <i class="fa fa-comments" style="margin-left: 1.2em; margin-top: 0.2em;"></i>{{ $idea->comments_count }}
                                     {{-- <span href="#"> <i class="fa fa-comments"></i>{{ $idea->comments_count }}</span> --}}
                                     <span><a class=""
                                             onclick="window.location.href='{{ url('/ideas/' . $idea->id) }}'">See

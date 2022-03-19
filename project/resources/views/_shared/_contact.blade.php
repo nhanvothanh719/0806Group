@@ -73,7 +73,7 @@
                </div>
              </div>
              <div class="row">
-              <div class="update ml-auto mr-auto">
+              <div class="update ml-auto mr-auto" style="line-height:3em;">
                  <button type="submit" class="btn btn-primary btn-round">Send</button>
                </div>
              </div>
